@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
 }
 
 android {
@@ -41,4 +42,13 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.dagger:dagger:2.49")
+    kapt("com.google.dagger:dagger-compiler:2.48")
+    implementation("com.google.dagger:dagger-android:2.48")
+    kapt("com.google.dagger:dagger-android-processor:2.48")
+    implementation("com.google.dagger:hilt-android:2.49")
+    implementation("com.airbnb.android:lottie:5.2.0")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 }

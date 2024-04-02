@@ -11,25 +11,19 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.example.data.repository.Product
-import com.example.data.repository.ProductsRepositoryImpl
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 
 @Composable
-fun SplashScreen(navController: NavHostController) {
+fun SplashScreen(navController: NavHostController, products: List<Product>) {
     var isAnimationFinished by remember { mutableStateOf(false) }
     val alpha = remember {
         androidx.compose.animation.core.Animatable(0f)
@@ -48,8 +42,10 @@ fun SplashScreen(navController: NavHostController) {
         modifier = Modifier.background(Color(0xFFF15412))) {
         isAnimationFinished = AnimationLoader()
         if (isAnimationFinished) {
-            navController.popBackStack()
-            navController.navigate("Catalogue")
+            LaunchedEffect(Unit) {
+                navController.popBackStack()
+                navController.navigate("Catalogue")
+            }
         }
     }
 }
