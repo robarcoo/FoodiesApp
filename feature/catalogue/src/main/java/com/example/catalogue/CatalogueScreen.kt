@@ -69,26 +69,28 @@ fun CatalogueScreen(navController : NavController) {
                     it.forEach { product ->
                         Box(modifier = Modifier.weight(1f)) {
                             CatalogueCard(product = product)
-                            if (product.priceOld != null) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.sale_foreground),
-                                    contentDescription = "sale",
-                                    modifier = Modifier.size(12.dp)
-                                )
-                            }
-                            if (product.tagIds.contains(2)) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.vegetarian_foreground),
-                                    contentDescription = "vegetarian",
-                                    modifier = Modifier.size(12.dp)
-                                )
-                            }
-                            if (product.tagIds.contains(4)) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.spicy_foreground),
-                                    contentDescription = "spicy",
-                                    modifier = Modifier.size(12.dp)
-                                )
+                            Row(modifier = Modifier.fillMaxWidth().padding(top = 17.dp, start = 12.dp, end = 0.dp, bottom = 0.dp)) {
+                                if (product.priceOld != null) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.sale_foreground),
+                                        contentDescription = "sale",
+                                        modifier = Modifier.size(35.dp).padding(top = 0.dp, start = 0.dp, end = 6.dp, bottom = 0.dp)
+                                    )
+                                }
+                                if (product.tagIds.contains(2)) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.vegetarian_foreground),
+                                        contentDescription = "vegetarian",
+                                        modifier = Modifier.size(35.dp).padding(top = 0.dp, start = 0.dp, end = 6.dp, bottom = 0.dp)
+                                    )
+                                }
+                                if (product.tagIds.contains(4)) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.spicy_foreground),
+                                        contentDescription = "spicy",
+                                        modifier = Modifier.size(35.dp).padding(top = 0.dp, start = 0.dp, end = 6.dp, bottom = 0.dp)
+                                    )
+                                }
                             }
 
                         }
