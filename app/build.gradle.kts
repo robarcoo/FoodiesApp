@@ -58,7 +58,7 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3:1.2.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -67,7 +67,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation(project(":feature:splash"))
-    implementation("androidx.navigation:navigation-compose:2.7.3")
+    implementation(project(":feature:catalogue"))
+    implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("com.airbnb.android:lottie:5.2.0")
     implementation("com.airbnb.android:lottie-compose:5.2.0")
 

@@ -14,11 +14,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.example.data.repository.Product
 import com.example.data.repository.ProductsRepositoryImpl
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +30,7 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun SplashScreen(navController: NavHostController) {
+    var isAnimationFinished by remember { mutableStateOf(false) }
     val alpha = remember {
         androidx.compose.animation.core.Animatable(0f)
     }
@@ -42,14 +46,18 @@ fun SplashScreen(navController: NavHostController) {
     Column(verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.background(Color(0xFFF15412))) {
-        AnimationLoader()
-        val repository = ProductsRepositoryImpl()
-        val products = remember { mutableStateListOf<Product>() }
-        LaunchedEffect(key1 = true) {
-            products.swap(withContext(Dispatchers.IO) {
-                repository.getProducts()
-            })
+        isAnimationFinished = AnimationLoader()
+        if (isAnimationFinished) {
+            navController.popBackStack()
+            navController.navigate("Catalogue")
         }
+//        val repository = ProductsRepositoryImpl()
+//        val products = remember { mutableStateListOf<Product>() }
+//        LaunchedEffect(key1 = true) {
+//            products.swap(withContext(Dispatchers.IO) {
+//                repository.getProducts()
+//            })
+//        }
     }
 }
 
@@ -59,12 +67,19 @@ private fun <T> SnapshotStateList<T>.swap(withContext: List<T>) {
 }
 
 @Composable
-fun AnimationLoader() {
+fun AnimationLoader() : Boolean {
+    var answer = false
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.foodies))
-
+    val progress by animateLottieCompositionAsState(composition = composition)
     LottieAnimation(
-        composition = composition, iterations = 1,
-        modifier = Modifier.size(400.dp)
+        composition = composition,
+        modifier = Modifier.size(400.dp),
+        iterations = 1
     )
+    if (progress == 1f) {
+        answer = true
+    }
+
+    return answer
 }
 
