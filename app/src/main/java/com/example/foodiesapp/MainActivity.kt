@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.foodiesapp.ui.theme.FoodiesAppTheme
+import com.example.splash.SplashScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -29,27 +30,11 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "Splash") {
                         composable("Splash") {
-                            SplashScreen(navController = navController, context = this@MainActivity)
+                            SplashScreen(navController = navController)
                         }
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FoodiesAppTheme {
-        Greeting("Android")
     }
 }
