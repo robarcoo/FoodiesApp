@@ -10,9 +10,9 @@ data class Product(
     val description : String,
     val image : String,
     @SerializedName("price_current")
-    val priceCurrent : Double,
+    val priceCurrent : Int,
     @SerializedName("price_old")
-    val priceOld : Double,
+    val priceOld : Int?,
     @SerializedName("category_id")
     val categoryId : Int,
     val measure : Int,

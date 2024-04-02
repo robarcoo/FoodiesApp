@@ -51,20 +51,9 @@ fun SplashScreen(navController: NavHostController) {
             navController.popBackStack()
             navController.navigate("Catalogue")
         }
-//        val repository = ProductsRepositoryImpl()
-//        val products = remember { mutableStateListOf<Product>() }
-//        LaunchedEffect(key1 = true) {
-//            products.swap(withContext(Dispatchers.IO) {
-//                repository.getProducts()
-//            })
-//        }
     }
 }
 
-private fun <T> SnapshotStateList<T>.swap(withContext: List<T>) {
-    this.clear()
-    this.addAll(withContext)
-}
 
 @Composable
 fun AnimationLoader() : Boolean {
