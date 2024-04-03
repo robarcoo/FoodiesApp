@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.data.repository.Product
+import com.example.data.dto.Product
 
 // Full catalogue card with all icons
 // If more than one, then icons will stand next to each in a row

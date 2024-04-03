@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         val viewModel: SharedViewModel by viewModels()
         setContent {
             val navController = rememberNavController()
-            val products by viewModel.products.collectAsState()
+            val products by viewModel.productState.collectAsState()
             FoodiesAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(

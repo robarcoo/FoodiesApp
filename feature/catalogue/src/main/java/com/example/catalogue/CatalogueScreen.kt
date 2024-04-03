@@ -39,18 +39,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.data.repository.Product
+import com.example.common.ProductState
+import com.example.data.dto.Product
 
 // Overall Catalogue Screen
 @Composable
-fun CatalogueScreen(products: List<Product>) {
-    val chunks = products.chunked(2)
-    TopBarElement(products = chunks)
+fun CatalogueScreen(products: ProductState) {
+    TopBarElement(products = products)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBarElement(products : List<List<Product>>) {
+fun TopBarElement(products : ProductState) {
+    val chunks = products.products.chunked(2)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(Color.White),
@@ -65,8 +66,7 @@ fun TopBarElement(products : List<List<Product>>) {
 
             )}) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            CategoriesRow()
-            InnerContent(chunks = products)
+            CategoriesRow(products)
         }
 
 
@@ -74,27 +74,36 @@ fun TopBarElement(products : List<List<Product>>) {
 }
 
 @Composable
-@Preview
-fun CategoriesRow() {
+fun CategoriesRow(products: ProductState) {
     var tabIndex by remember { mutableStateOf(0) }
 
-    val tabs = listOf("Home", "About", "Settings", "More", "Something", "Everything")
+    val tabs = products.categories
     Column(modifier = Modifier) {
-        ScrollableTabRow(selectedTabIndex = tabIndex,  edgePadding = 7.dp, containerColor = Color.White, modifier = Modifier.background(Color.White).padding(8.dp),
+        ScrollableTabRow(selectedTabIndex = tabIndex,  edgePadding = 7.dp, containerColor = Color.White, modifier = Modifier
+            .background(Color.White)
+            .padding(8.dp),
             indicator = {
             }, divider = {
             }) {
-            tabs.forEachIndexed { index, title ->
-                Tab(text = { Text(text = title, color = if (tabIndex == index) { Color.White } else { Color.Black}, fontWeight = FontWeight.Bold)},
-                    modifier = Modifier.height(50.dp)
+            tabs.forEachIndexed { index, category ->
+                Tab(text = { Text(text = category.name, color = if (tabIndex == index) { Color.White } else { Color.Black}, fontWeight = FontWeight.Bold)},
+                    modifier = Modifier
+                        .height(50.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(if (tabIndex == index) { Color(0xFFF15412) } else { Color.White}),
+                        .background(
+                            if (tabIndex == index) {
+                                Color(0xFFF15412)
+                            } else {
+                                Color.White
+                            }
+                        ),
                     selected = tabIndex == index,
                     onClick = { tabIndex = index },
                     selectedContentColor = Color(0xFFF15412))
             }
 
         }
+           InnerContent(chunks = products.categoriesWithProducts[tabIndex].chunked(2))
     }
 }
 

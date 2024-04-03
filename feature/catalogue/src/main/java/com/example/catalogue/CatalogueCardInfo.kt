@@ -7,7 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.data.repository.Product
+import com.example.data.dto.Product
+
 
 // Composable for text below product image and above button
 @Composable
