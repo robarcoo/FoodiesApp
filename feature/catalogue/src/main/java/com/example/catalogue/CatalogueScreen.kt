@@ -70,7 +70,6 @@ fun CatalogueScreen(products: ProductState) {
 @Composable
 fun TopBarElement(products : ProductState) {
     var showBottomSheet by remember { mutableStateOf(false) }
-    val chunks = products.products.chunked(2)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(Color.White),
@@ -87,7 +86,7 @@ fun TopBarElement(products : ProductState) {
         Column(modifier = Modifier.padding(innerPadding)) {
             CategoriesRow(products)
             if (showBottomSheet) {
-                showBottomSheet = FilterDialog()
+                showBottomSheet = FilterDialog(products)
             }
         }
 
@@ -96,13 +95,14 @@ fun TopBarElement(products : ProductState) {
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterDialog(): Boolean {
+fun FilterDialog(products: ProductState): Boolean {
     val result = remember { mutableStateOf(true) }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
-    val withSale = remember { mutableStateOf(false) }
-    val withVegetarian = remember { mutableStateOf(false) }
-    val withSpicy = remember { mutableStateOf(false) }
+
+    val withVegetarian = remember { mutableStateOf(products.appliedTags.contains(2)) }
+    val withSpicy = remember { mutableStateOf(products.appliedTags.contains(4)) }
+    val withSale = remember { mutableStateOf(products.appliedTags.contains(6)) }
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -116,16 +116,22 @@ fun FilterDialog(): Boolean {
             Text(text = "Подобрать блюда", fontSize = 20.sp, fontWeight = FontWeight.Bold,
                 color = Color.Black, modifier = Modifier.padding(bottom = 10.dp))
             withVegetarian.value = filterCheckBox(withVegetarian.value, "Без мяса")
+
             HorizontalDivider(color = Color(0xFFE0E0E0))
             withSpicy.value = filterCheckBox(withSpicy.value, "Острое")
+
             HorizontalDivider(color = Color(0xFFE0E0E0))
             withSale.value = filterCheckBox(withSale.value, "Со скидкой")
+
             Spacer(modifier = Modifier.size(10.dp))
             Button(modifier = Modifier.fillMaxWidth().height(50.dp),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFF15412)),
                 onClick = {
                 scope.launch {
+                        ApplyTags(products, withVegetarian.value,  2)
+                        ApplyTags(products, withSpicy.value,  4)
+                        ApplyTags(products, withSale.value,  6)
                         result.value = false
                     }
             }) {
@@ -136,6 +142,13 @@ fun FilterDialog(): Boolean {
     return result.value
 }
 
+fun ApplyTags(products: ProductState, isApplied : Boolean, tag : Int) {
+    if (isApplied) {
+        products.appliedTags.add(tag)
+    } else {
+        products.appliedTags.remove(tag)
+    }
+}
 @Composable
 fun filterCheckBox(isChecked: Boolean, text: String) : Boolean {
     val result = remember { mutableStateOf(isChecked) }
@@ -181,13 +194,33 @@ fun CategoriesRow(products: ProductState) {
             }
 
         }
-        val chunks = products.categoriesWithProducts[tabIndex].chunked(2)
-        if (chunks.isNotEmpty()) {
-            InnerContent(chunks = chunks)
+
+        val categoryProducts = products.categoriesWithProducts[tabIndex]
+        val withFilters = filterProducts(products, categoryProducts).chunked(2)
+        if (withFilters.isNotEmpty()) {
+            InnerContent(chunks = withFilters)
         } else {
-            NoResultsPage("Cюда пока ничего не завезли")
+            if (products.appliedTags.size > 0) {
+                NoResultsPage("Таких блюд нет :(\n" +
+                        "Попробуйте изменить фильтры")
+            } else {
+                NoResultsPage("Cюда пока ничего не завезли")
+            }
         }
     }
+}
+
+fun filterProducts(product: ProductState, chunk : List<Product>) : List<Product> {
+    var result = chunk
+    product.appliedTags.forEach {
+        result = when(it) {
+            2 -> result.filter { product -> product.tagIds.contains(2) }
+            4 -> result.filter { product -> product.tagIds.contains(4) }
+            6 -> result.filter { product -> product.priceOld != null }
+            else -> result
+        }
+    }
+    return result
 }
 
 @Composable
