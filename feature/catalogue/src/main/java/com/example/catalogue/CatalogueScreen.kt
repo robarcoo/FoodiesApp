@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -31,9 +32,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.data.repository.Product
@@ -77,12 +80,18 @@ fun CategoriesRow() {
 
     val tabs = listOf("Home", "About", "Settings", "More", "Something", "Everything")
     Column(modifier = Modifier) {
-        ScrollableTabRow(selectedTabIndex = tabIndex) {
+        ScrollableTabRow(selectedTabIndex = tabIndex,  edgePadding = 7.dp, containerColor = Color.White, modifier = Modifier.background(Color.White).padding(8.dp),
+            indicator = {
+            }, divider = {
+            }) {
             tabs.forEachIndexed { index, title ->
-                Tab(text = { Text(title, color = Color.Black)},
-                    modifier = Modifier.height(50.dp),
+                Tab(text = { Text(text = title, color = if (tabIndex == index) { Color.White } else { Color.Black}, fontWeight = FontWeight.Bold)},
+                    modifier = Modifier.height(50.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(if (tabIndex == index) { Color(0xFFF15412) } else { Color.White}),
                     selected = tabIndex == index,
-                    onClick = { tabIndex = index })
+                    onClick = { tabIndex = index },
+                    selectedContentColor = Color(0xFFF15412))
             }
 
         }
