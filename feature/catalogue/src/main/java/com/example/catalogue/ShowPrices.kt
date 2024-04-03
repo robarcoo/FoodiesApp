@@ -14,7 +14,7 @@ fun ShowPrices(priceCurrent: Int, priceOld : Int?) {
         color = Color.Black)
     if (priceOld != null) {
         Text(
-            text = "${priceOld / 100} ₽", style =
+            text = " ${priceOld / 100} ₽", style =
             TextStyle(
                 color = Color(0xFF666666),
                 textDecoration = TextDecoration.LineThrough
