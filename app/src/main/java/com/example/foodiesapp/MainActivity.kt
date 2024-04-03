@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
                             SplashScreen(navController = navController)
                         }
                         composable("Catalogue") {
-                            CatalogueScreen(navController = navController, products)
+                            CatalogueScreen(products)
                         }
                     }
                 }

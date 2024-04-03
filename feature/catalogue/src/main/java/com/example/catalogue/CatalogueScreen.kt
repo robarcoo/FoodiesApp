@@ -3,55 +3,44 @@ package com.example.catalogue
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.data.repository.Product
 
 // Overall Catalogue Screen
 @Composable
-fun CatalogueScreen(navController: NavController, products: List<Product>) {
+fun CatalogueScreen(products: List<Product>) {
     val chunks = products.chunked(2)
     TopBarElement(products = chunks)
 }
@@ -60,7 +49,6 @@ fun CatalogueScreen(navController: NavController, products: List<Product>) {
 @Composable
 fun TopBarElement(products : List<List<Product>>) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-
     Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(Color.White),
             title = { Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Logo")},
@@ -73,19 +61,41 @@ fun TopBarElement(products : List<List<Product>>) {
             }}
 
             )}) { innerPadding ->
-        InnerContent(innerPadding = innerPadding, chunks  = products)
+        Column(modifier = Modifier.padding(innerPadding)) {
+            CategoriesRow()
+            InnerContent(chunks = products)
+        }
+
 
     }
 }
 
 @Composable
-fun InnerContent(innerPadding : PaddingValues, chunks: List<List<Product>>) {
+@Preview
+fun CategoriesRow() {
+    var tabIndex by remember { mutableStateOf(0) }
+
+    val tabs = listOf("Home", "About", "Settings", "More", "Something", "Everything")
+    Column(modifier = Modifier) {
+        ScrollableTabRow(selectedTabIndex = tabIndex) {
+            tabs.forEachIndexed { index, title ->
+                Tab(text = { Text(title, color = Color.Black)},
+                    modifier = Modifier.height(50.dp),
+                    selected = tabIndex == index,
+                    onClick = { tabIndex = index })
+            }
+
+        }
+    }
+}
+
+@Composable
+fun InnerContent(chunks: List<List<Product>>) {
     LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
                 .padding(start = 12.dp, end = 12.dp, top = 0.dp, bottom = 0.dp),
-            contentPadding = innerPadding
         ) {
             items(chunks) {
                 Row(modifier = Modifier

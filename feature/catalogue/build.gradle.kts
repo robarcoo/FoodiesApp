@@ -57,4 +57,5 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation(project(":core:common"))
+    debugImplementation("androidx.compose.ui:ui-tooling:1.6.4")
 }
