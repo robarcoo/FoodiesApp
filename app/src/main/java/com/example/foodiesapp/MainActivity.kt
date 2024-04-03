@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.catalogue.CatalogueScreen
+import com.example.catalogue.SearchPage
 import com.example.common.SharedViewModel
 import com.example.foodiesapp.ui.theme.FoodiesAppTheme
 import com.example.splash.SplashScreen
@@ -44,7 +45,10 @@ class MainActivity : ComponentActivity() {
                             SplashScreen(navController = navController)
                         }
                         composable("Catalogue") {
-                            CatalogueScreen(products)
+                            CatalogueScreen(products, navController)
+                        }
+                        composable("Search") {
+                            SearchPage(products, navController)
                         }
                     }
                 }

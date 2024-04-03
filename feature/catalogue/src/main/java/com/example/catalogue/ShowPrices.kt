@@ -10,11 +10,11 @@ import androidx.compose.ui.text.style.TextDecoration
 // Composable for calculations of prices
 @Composable
 fun ShowPrices(priceCurrent: Int, priceOld : Int?) {
-    Text("${priceCurrent / 100} ₽", fontWeight = FontWeight.Bold,
+    Text("${priceCurrent / 100} ₽ ", fontWeight = FontWeight.Bold,
         color = Color.Black)
     if (priceOld != null) {
         Text(
-            text = " ${priceOld / 100} ₽", style =
+            text = "${priceOld / 100} ₽", style =
             TextStyle(
                 color = Color(0xFF666666),
                 textDecoration = TextDecoration.LineThrough
