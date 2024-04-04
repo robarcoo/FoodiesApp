@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -58,7 +59,7 @@ fun CardScreen(navController: NavController, products: ProductState, id: Int) {
                     navController.popBackStack()
                     navController.navigate("Catalogue")
 
-                }, modifier = Modifier.shadow(5.dp)) {
+                }) {
                     Icon(painterResource(R.drawable.arrowleft), contentDescription = null, tint = Color.Black)
                 }
                 Image(

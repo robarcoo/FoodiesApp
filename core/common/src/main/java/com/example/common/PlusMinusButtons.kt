@@ -24,18 +24,18 @@ import androidx.compose.ui.unit.dp
 import com.example.data.dto.Product
 
 @Composable
-fun PlusMinusButtons(products: ProductState, product : Product) {
+fun PlusMinusButtons(products: ProductState, product : Product, colors : Color = Color.White) {
     Row(
         modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         Button(
             onClick = { products.shoppingCart.remove(product.id) },
-            colors = ButtonDefaults.buttonColors(Color.White),
+            colors = ButtonDefaults.buttonColors(colors),
             contentPadding = PaddingValues(0.dp),
             shape = RoundedCornerShape(10.dp),
             elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 3.dp
+                defaultElevation = if (colors == Color.White) { 3.dp } else { 0.dp }
             ),
             modifier = Modifier.defaultMinSize(
                 minWidth = 10.dp,
@@ -60,10 +60,10 @@ fun PlusMinusButtons(products: ProductState, product : Product) {
 
         Button(
             onClick = { products.shoppingCart.add(product.id) },
-            colors = ButtonDefaults.buttonColors(Color.White),
+            colors = ButtonDefaults.buttonColors(colors),
             shape = RoundedCornerShape(10.dp),
             elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 3.dp
+                defaultElevation = if (colors == Color.White) { 3.dp } else { 0.dp }
             ),
             contentPadding = PaddingValues(0.dp),
             modifier = Modifier.defaultMinSize(
