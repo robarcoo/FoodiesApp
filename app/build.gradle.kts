@@ -71,6 +71,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation(project(":feature:splash"))
     implementation(project(":feature:catalogue"))
+    implementation(project(":feature:card"))
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("com.google.dagger:dagger:2.49")
     kapt("com.google.dagger:dagger-compiler:2.48")

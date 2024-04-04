@@ -11,9 +11,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.card.CardScreen
 import com.example.catalogue.CatalogueScreen
 import com.example.catalogue.SearchPage
 import com.example.common.SharedViewModel
@@ -50,6 +53,15 @@ class MainActivity : ComponentActivity() {
                         composable("Search") {
                             SearchPage(products, navController)
                         }
+                        composable(route = "Card/{id}",
+                            arguments = listOf(navArgument("id") {
+                                type = NavType.StringType
+                            })
+                            ) {
+                            val id = it.arguments?.getString("id")?.toIntOrNull() ?: -1
+                            CardScreen(navController, products, id)
+                        }
+
                     }
                 }
             }

@@ -18,11 +18,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.common.ProductState
 import com.example.utils.filterProducts
 
 @Composable
-fun CategoriesRow(products: ProductState) {
+fun CategoriesRow(products: ProductState, navController: NavController) {
     var tabIndex by remember { mutableStateOf(0) }
 
     val tabs = products.categories
@@ -56,7 +57,7 @@ fun CategoriesRow(products: ProductState) {
         val categoryProducts = products.categoriesWithProducts[tabIndex]
         val withFilters = filterProducts(products, categoryProducts).chunked(2)
         if (withFilters.isNotEmpty()) {
-            InnerContent(chunks = withFilters, products)
+            InnerContent(chunks = withFilters, products, navController)
         } else {
             if (products.appliedTags.size > 0) {
                 NoResultsPage("Таких блюд нет :(\n" +

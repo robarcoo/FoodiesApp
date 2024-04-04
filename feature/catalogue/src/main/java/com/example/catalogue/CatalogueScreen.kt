@@ -127,7 +127,7 @@ fun TopBarElement(products : ProductState, navController : NavController) {
         },
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            CategoriesRow(products)
+            CategoriesRow(products, navController)
             if (showBottomSheet) {
                 showBottomSheet = FilterDialog(products)
             }
@@ -217,7 +217,7 @@ fun SearchPage(products : ProductState, navController: NavController) {
                         Text(text = "Ничего не нашлось :(", color = Color(0xFF666666), textAlign = TextAlign.Center)
                     }
                     else {
-                        InnerContent(chunks = result.chunked(2), products)
+                        InnerContent(chunks = result.chunked(2), products, navController = navController)
                     }
                 }
             }

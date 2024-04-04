@@ -46,7 +46,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.compose.material3:material3-android:1.2.1")
     implementation(project(":core:data"))
-    implementation(project(":core:data"))
+    implementation(project(":feature:card"))
     implementation("com.google.android.gms:play-services-analytics-impl:18.0.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

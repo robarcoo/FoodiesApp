@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.common.ProductState
 import com.example.data.dto.Product
 
@@ -14,9 +15,9 @@ import com.example.data.dto.Product
 // If more than one, then icons will stand next to each in a row
 
 @Composable
-fun CatalogueCardWithIcons(product: Product, modifier: Modifier, products : ProductState) {
+fun CatalogueCardWithIcons(product: Product, modifier: Modifier, products : ProductState, navController : NavController) {
     Box(modifier = modifier) {
-        CatalogueCard(product = product, products = products)
+        CatalogueCard(product = product, products = products, navController = navController)
         Row(modifier = Modifier
             .fillMaxWidth()
             .padding(top = 17.dp, start = 12.dp, end = 0.dp, bottom = 0.dp)) {
