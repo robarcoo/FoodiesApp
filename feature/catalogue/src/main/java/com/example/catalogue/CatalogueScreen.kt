@@ -6,14 +6,23 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsIgnoringVisibility
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -128,18 +137,30 @@ fun TopBarElement(products : ProductState, navController : NavController) {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun BottomCartButton(products: ProductState) {
-    BottomAppBar() {
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    onClick = {
-                    }) {
-                    Icon(painter = painterResource(R.drawable.cart), contentDescription = "Add to cart", tint = Color.White)
-                    Text(text = "${overallSum(products = products)}")
-                }
+    BottomAppBar(containerColor = Color.White, modifier = Modifier.navigationBarsPadding()) {
+        Column(modifier = Modifier.height(150.dp).padding(vertical = 12.dp, horizontal = 16.dp).
+        background(Color.White)) {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth().height(50.dp),
+                colors = ButtonDefaults.buttonColors(Color(0xFFF15412)),
+                shape = RoundedCornerShape(8.dp),
+                onClick = {
+                }) {
+                Icon(
+                    painter = painterResource(R.drawable.cart),
+                    contentDescription = "Add to cart", tint = Color.White
+                )
+                Text(
+                    text = " ${overallSum(products = products)} ₽", fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
         }
+    }
 }
 
 fun overallSum(products: ProductState) : Int {
