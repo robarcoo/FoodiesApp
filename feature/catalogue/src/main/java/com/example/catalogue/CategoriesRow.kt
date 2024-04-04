@@ -54,17 +54,22 @@ fun CategoriesRow(products: ProductState, navController: NavController) {
             }
 
         }
-
-        val categoryProducts = products.categoriesWithProducts[tabIndex]
-        val withFilters = filterProducts(products, categoryProducts).chunked(2)
-        if (withFilters.isNotEmpty()) {
-            InnerContent(chunks = withFilters, products, navController)
+        if (products.categoriesWithProducts.isEmpty()) {
+            NoResultsPage(line = "Нет соединения с интернетом")
         } else {
-            if (products.appliedTags.size > 0) {
-                NoResultsPage("Таких блюд нет :(\n" +
-                        "Попробуйте изменить фильтры")
+            val categoryProducts = products.categoriesWithProducts[tabIndex]
+            val withFilters = filterProducts(products, categoryProducts).chunked(2)
+            if (withFilters.isNotEmpty()) {
+                InnerContent(chunks = withFilters, products, navController)
             } else {
-                NoResultsPage("Cюда пока ничего не завезли")
+                if (products.appliedTags.size > 0) {
+                    NoResultsPage(
+                        "Таких блюд нет :(\n" +
+                                "Попробуйте изменить фильтры"
+                    )
+                } else {
+                    NoResultsPage("Cюда пока ничего не завезли")
+                }
             }
         }
     }

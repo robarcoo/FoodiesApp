@@ -14,10 +14,15 @@ class SharedViewModel @Inject constructor(private val repository : ProductsRepos
     val productState = MutableStateFlow(ProductState())
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            productState.value.products = repository.getProducts()
-            productState.value.categories = repository.getCategories()
-            productState.value.tags = repository.getTags()
-            productState.value.categoriesWithProducts = productState.value.categories.map { category -> productState.value.products.filter { product -> product.categoryId == category.id }}
+            try {
+                productState.value.products = repository.getProducts()
+                productState.value.categories = repository.getCategories()
+                productState.value.tags = repository.getTags()
+                productState.value.categoriesWithProducts =
+                    productState.value.categories.map { category -> productState.value.products.filter { product -> product.categoryId == category.id } }
+            } catch (e : Exception) {
+
+            }
         }
     }
 
