@@ -9,7 +9,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -59,38 +63,60 @@ fun CatalogueScreen(products: ProductState, navController : NavController) {
 fun TopBarElement(products : ProductState, navController : NavController) {
     var showBottomSheet by remember { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-    Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(Color.White),
-            title = { Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Logo")},
-            navigationIcon = {
-                Box(contentAlignment = Alignment.TopEnd) {
-                IconButton(onClick = { showBottomSheet = true }) {
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        bottomBar = {
+            if (products.shoppingCart.isNotEmpty()) {
+                BottomCartButton(products = products)
+            }
+        },
+        topBar = {
+            CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(Color.White),
+                title = {
+                    Image(
+                        painter = painterResource(id = R.drawable.logo),
+                        contentDescription = "Logo"
+                    )
+                },
+                navigationIcon = {
+                    Box(contentAlignment = Alignment.TopEnd) {
+                        IconButton(onClick = { showBottomSheet = true }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.filter),
+                                contentDescription = "Filter Food",
+                                tint = Color.Black
+                            )
+                        }
+                        if (products.appliedTags.size > 0) {
+                            Text(text = products.appliedTags.size.toString(),
+                                color = Color.White,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.drawBehind {
+                                    drawCircle(
+                                        color = Color(0xFFF15412),
+                                        radius = 25f
+                                    )
+                                })
+                        }
+                    }
+                },
+                actions = {
+                    IconButton(onClick = {
+                        navController.navigate("Search")
+                    }) {
                         Icon(
-                            painter = painterResource(id = R.drawable.filter),
-                            contentDescription = "Filter Food",
+                            painter = painterResource(id = R.drawable.search),
+                            contentDescription = "Search",
                             tint = Color.Black
                         )
-                    }
-                    if (products.appliedTags.size > 0) {
-                        Text(text = products.appliedTags.size.toString(),
-                            color = Color.White,
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.drawBehind {
-                                drawCircle(
-                                    color = Color(0xFFF15412),
-                                    radius = 25f
-                                )
-                            })
-                    }
-            }},
-            actions = { IconButton(onClick = {
-                navController.navigate("Search") }) {
-                Icon(painter = painterResource(id = R.drawable.search), contentDescription = "Search", tint = Color.Black)
 
-            }}
+                    }
+                }
 
-            )}) { innerPadding ->
+            )
+        },
+    ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             CategoriesRow(products)
             if (showBottomSheet) {
@@ -102,6 +128,31 @@ fun TopBarElement(products : ProductState, navController : NavController) {
     }
 }
 
+@Composable
+fun BottomCartButton(products: ProductState) {
+    BottomAppBar() {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    onClick = {
+                    }) {
+                    Icon(painter = painterResource(R.drawable.cart), contentDescription = "Add to cart", tint = Color.White)
+                    Text(text = "${overallSum(products = products)}")
+                }
+        }
+}
+
+fun overallSum(products: ProductState) : Int {
+    val allBought = products.shoppingCart.groupingBy { it }.eachCount()
+    var sum = 0
+    var inKopecks = 0
+    allBought.forEach {bought ->
+        inKopecks = (products.products.find { it.id == bought.key }?.priceCurrent) ?: 0
+        sum += (inKopecks * bought.value / 100)
+    }
+    return sum
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchPage(products : ProductState, navController: NavController) {
@@ -111,7 +162,9 @@ fun SearchPage(products : ProductState, navController: NavController) {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)) {
-            SearchBar(modifier = Modifier.fillMaxWidth().shadow(elevation = 15.dp, spotColor = Color.Transparent),
+            SearchBar(modifier = Modifier
+                .fillMaxWidth()
+                .shadow(elevation = 15.dp, spotColor = Color.Transparent),
                 shape = RectangleShape,
                 query = text, onQueryChange = { text = it }, onSearch = { active = false},
                 active = active, onActiveChange = {active = it},
