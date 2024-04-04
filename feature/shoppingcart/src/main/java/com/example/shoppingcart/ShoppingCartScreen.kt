@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.common.CardBottomBar
+import com.example.common.BottomBar
 import com.example.common.PlusMinusButtons
 import com.example.common.ProductState
 import com.example.common.ShowPrices
@@ -51,8 +51,10 @@ fun ShoppingCartScreen(products: ProductState, navController: NavController) {
         Scaffold(modifier = Modifier.background(Color.White),
             topBar = { ShoppingCartTopBar(navController) },
             bottomBar = { if (products.shoppingCart.size > 0) {
-                CardBottomBar("Заказать за ${sum / 100} ₽",
-                    Click = { products.shoppingCart.clear() })
+                BottomBar("Заказать за ${sum / 100} ₽")
+                {
+                    products.shoppingCart.clear()
+                }
             }
             }
         ) {
@@ -61,76 +63,17 @@ fun ShoppingCartScreen(products: ProductState, navController: NavController) {
                     .fillMaxSize()
                     .background(Color.White)) {
                     items(allShopping) { product ->
-                        Column {
-                            Row(modifier = Modifier
-                                .padding(16.dp)
-                                .height(130.dp)
-                                .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically) {
-                                Image(
-                                    painterResource(com.example.common.R.drawable.food),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .height(96.dp)
-                                        .padding(end = 16.dp),
-                                )
-                                Column() {
-                                    Row(modifier = Modifier.padding(bottom = 12.dp)) {
-                                        Text(product.name, color = Color.Black)
-
-                                    }
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Row(modifier = Modifier.width(135.dp)) {
-                                            PlusMinusButtons(products, product, Color(0xFFF5F5F5))
-                                        }
-                                        Spacer(modifier = Modifier.weight(1f))
-                                        Column() {
-                                            val count =
-                                                products.shoppingCart.count { it == product.id }
-                                            ShowPrices(
-                                                product.priceCurrent * count,
-                                                product.priceOld?.times(count)
-                                            )
-                                        }
-                                    }
-                                }
-
-
-                            }
-                            HorizontalDivider(color = Color(0xFFE0E0E0))
-                        }
+                        ShoppingCartItem(product = product, products = products)
                     }
                 }
             } else {
-                Column(
-                    modifier = Modifier
-                        .padding(it)
-                        .fillMaxSize()
-                        .background(Color.White),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        "Пусто, выберите блюда\n" +
-                                "в каталоге :)", color = Color.Black, textAlign = TextAlign.Center
-                    )
-                }
+                CartIsEmpty(it)
             }
         }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ShoppingCartTopBar(navController: NavController) {
-    TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(Color.White),
-        navigationIcon = {
-        IconButton(onClick = {
-            navController.popBackStack()
-            navController.navigate("Catalogue")})
-        {
-            Icon(painter = painterResource(R.drawable.arrowleft), contentDescription = null,
-                tint = Color(0xFFF15412))
-        }
-    }, title =  { Text("Корзина", fontWeight = FontWeight.Bold, color = Color.Black) } )
-}
+
+
+
+
+

@@ -15,9 +15,11 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -29,8 +31,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterDialog(products: ProductState): Boolean {
-    val result = remember { mutableStateOf(true) }
+fun FilterDialog(products: ProductState) : Boolean {
+    var result by remember { mutableStateOf(true) }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
 
@@ -40,7 +42,7 @@ fun FilterDialog(products: ProductState): Boolean {
 
     ModalBottomSheet(
         onDismissRequest = {
-            result.value = false
+            result = false
         },
         sheetState = sheetState,
         shape = RoundedCornerShape(24.dp),
@@ -66,12 +68,12 @@ fun FilterDialog(products: ProductState): Boolean {
                         ApplyTags(products, withVegetarian.value,  2)
                         ApplyTags(products, withSpicy.value,  4)
                         ApplyTags(products, withSale.value,  6)
-                        result.value = false
+                        result = false
                     }
                 }) {
                 Text(text ="Готово", color = Color.White)
             }
         }
     }
-    return result.value
+    return result
 }

@@ -18,9 +18,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.card.CardScreen
 import com.example.catalogue.CatalogueScreen
-import com.example.catalogue.SearchPage
 import com.example.common.SharedViewModel
 import com.example.foodiesapp.ui.theme.FoodiesAppTheme
+import com.example.search.SearchPage
 import com.example.shoppingcart.ShoppingCartScreen
 import com.example.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint

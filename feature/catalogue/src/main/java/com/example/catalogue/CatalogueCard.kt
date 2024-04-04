@@ -11,13 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +29,7 @@ import com.example.data.dto.Product
 
 
 // Composable for catalogue card without icons
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CatalogueCard(product: Product, products: ProductState, navController : NavController) {
     Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
@@ -43,7 +41,7 @@ fun CatalogueCard(product: Product, products: ProductState, navController : NavC
             )
            ) {
         Image(
-            painterResource(id = R.drawable.food), modifier = Modifier.fillMaxWidth(),
+            painterResource(id = com.example.common.R.drawable.food), modifier = Modifier.fillMaxWidth(),
             contentDescription = "")
         Column(modifier = Modifier
             .padding(12.dp)

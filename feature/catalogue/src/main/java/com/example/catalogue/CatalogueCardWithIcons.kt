@@ -22,13 +22,13 @@ fun CatalogueCardWithIcons(product: Product, modifier: Modifier, products : Prod
             .fillMaxWidth()
             .padding(top = 17.dp, start = 12.dp, end = 0.dp, bottom = 0.dp)) {
             if (product.priceOld != null) {
-                CardIcon(imageId = R.drawable.sale_foreground)
+                CardIcon(imageId = com.example.common.R.drawable.sale_foreground)
             }
             if (product.tagIds.contains(2)) {
-                CardIcon(imageId = R.drawable.vegetarian_foreground)
+                CardIcon(imageId = com.example.common.R.drawable.vegetarian_foreground)
             }
             if (product.tagIds.contains(4)) {
-                CardIcon(imageId = R.drawable.spicy_foreground)
+                CardIcon(imageId = com.example.common.R.drawable.spicy_foreground)
             }
         }
 

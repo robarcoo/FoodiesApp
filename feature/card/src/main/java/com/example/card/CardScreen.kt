@@ -8,26 +8,17 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,9 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.common.ProductState
 import androidx.navigation.NavController
-import com.example.common.CardBottomBar
-import com.example.data.dto.Product
-
+import com.example.common.BottomBar
 
 
 @Composable
@@ -46,8 +35,11 @@ fun CardScreen(navController: NavController, products: ProductState, id: Int) {
      if (product != null) {
      val tags : List<String> = products.tags.filter { tag -> product.tagIds.contains(tag.id) }.map {it.name}
 
-        Scaffold(bottomBar = { CardBottomBar(text = "В корзину за ${product.priceCurrent / 100} ₽",
-            Click = { products.shoppingCart.add(product.id) }) }) {
+        Scaffold(bottomBar = {
+            BottomBar(text = "В корзину за ${product.priceCurrent / 100} ₽") {
+            products.shoppingCart.add(product.id)
+            }
+        }) {
             Column(
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())

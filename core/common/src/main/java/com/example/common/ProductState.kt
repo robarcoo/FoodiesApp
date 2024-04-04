@@ -11,5 +11,5 @@ data class ProductState(
     var tags : List<Tag> = mutableStateListOf(),
     var categoriesWithProducts : List<List<Product>> = mutableStateListOf(),
     var appliedTags: MutableList<Int> = mutableStateListOf(),
-    var shoppingCart: MutableList<Int> = mutableStateListOf()
+    var shoppingCart: MutableList<Int> = mutableStateListOf(),
 )
