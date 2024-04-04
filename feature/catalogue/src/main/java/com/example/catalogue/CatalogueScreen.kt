@@ -143,7 +143,7 @@ fun SearchPage(products : ProductState, navController: NavController) {
                         Text(text = "Ничего не нашлось :(", color = Color(0xFF666666), textAlign = TextAlign.Center)
                     }
                     else {
-                        InnerContent(chunks = result.chunked(2))
+                        InnerContent(chunks = result.chunked(2), products)
                     }
                 }
             }

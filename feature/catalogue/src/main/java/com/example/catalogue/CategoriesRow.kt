@@ -56,7 +56,7 @@ fun CategoriesRow(products: ProductState) {
         val categoryProducts = products.categoriesWithProducts[tabIndex]
         val withFilters = filterProducts(products, categoryProducts).chunked(2)
         if (withFilters.isNotEmpty()) {
-            InnerContent(chunks = withFilters)
+            InnerContent(chunks = withFilters, products)
         } else {
             if (products.appliedTags.size > 0) {
                 NoResultsPage("Таких блюд нет :(\n" +

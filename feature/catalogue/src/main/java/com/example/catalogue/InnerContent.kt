@@ -13,10 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.common.ProductState
 import com.example.data.dto.Product
 
 @Composable
-fun InnerContent(chunks: List<List<Product>>) {
+fun InnerContent(chunks: List<List<Product>>, products : ProductState) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -28,7 +29,7 @@ fun InnerContent(chunks: List<List<Product>>) {
                 .fillMaxWidth()
                 .height(IntrinsicSize.Max)) {
                 it.forEach { product ->
-                    CatalogueCardWithIcons(product, modifier = Modifier.weight(1f))
+                    CatalogueCardWithIcons(product, modifier = Modifier.weight(1f), products)
                 }
             }
         }
