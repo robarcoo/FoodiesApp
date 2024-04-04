@@ -1,5 +1,6 @@
 package com.example.foodiesapp.ui.theme
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
 import android.view.WindowManager
@@ -38,6 +39,7 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+@SuppressLint("ResourceAsColor")
 @Composable
 fun FoodiesAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -59,12 +61,16 @@ fun FoodiesAppTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
+            window.statusBarColor = android.R.color.transparent
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.setDecorFitsSystemWindows(false)
+            } else {
+                window.setFlags(
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+                )
+            }
         }
     }
 

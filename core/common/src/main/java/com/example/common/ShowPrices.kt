@@ -1,4 +1,4 @@
-package com.example.catalogue
+package com.example.common
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

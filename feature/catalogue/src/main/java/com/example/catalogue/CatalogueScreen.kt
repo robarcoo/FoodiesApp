@@ -76,7 +76,7 @@ fun TopBarElement(products : ProductState, navController : NavController) {
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         bottomBar = {
             if (products.shoppingCart.isNotEmpty()) {
-                BottomCartButton(products = products)
+                BottomCartButton(products = products, navController)
             }
         },
         topBar = {
@@ -139,7 +139,7 @@ fun TopBarElement(products : ProductState, navController : NavController) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun BottomCartButton(products: ProductState) {
+fun BottomCartButton(products: ProductState, navController: NavController) {
     BottomAppBar(containerColor = Color.White, modifier = Modifier.navigationBarsPadding()) {
         Column(modifier = Modifier.height(150.dp).padding(vertical = 12.dp, horizontal = 16.dp).
         background(Color.White)) {
@@ -149,6 +149,7 @@ fun BottomCartButton(products: ProductState) {
                 colors = ButtonDefaults.buttonColors(Color(0xFFF15412)),
                 shape = RoundedCornerShape(8.dp),
                 onClick = {
+                    navController.navigate("ShoppingCart")
                 }) {
                 Icon(
                     painter = painterResource(R.drawable.cart),

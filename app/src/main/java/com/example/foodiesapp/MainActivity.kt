@@ -21,6 +21,7 @@ import com.example.catalogue.CatalogueScreen
 import com.example.catalogue.SearchPage
 import com.example.common.SharedViewModel
 import com.example.foodiesapp.ui.theme.FoodiesAppTheme
+import com.example.shoppingcart.ShoppingCartScreen
 import com.example.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
@@ -60,6 +61,9 @@ class MainActivity : ComponentActivity() {
                             ) {
                             val id = it.arguments?.getString("id")?.toIntOrNull() ?: -1
                             CardScreen(navController, products, id)
+                        }
+                        composable("ShoppingCart") {
+                            ShoppingCartScreen(products, navController)
                         }
 
                     }
